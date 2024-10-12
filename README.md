@@ -9,16 +9,16 @@ For the detailed Documentation and Source Code of Searching script, click the li
 [Searching-Script](Searching-Script/#EN_19390005.G9.EX2.Q1.txt)
 
 For the detailed Documentation and Source Code of Createpvs script, click the link:
-[Createpvs-Script][Createpvs-Script/#EN_19390005.G9.EX2.Q2.txt)
+[Createpvs-Script](Createpvs-Script/#EN_19390005.G9.EX2.Q2.txt)
 
 For the detailed Documentation and Source Code of Cmpdir script, click the link:
-[Cmpdir-Script][Cmpdir-Script/#EN_19390005.G9.EX2.Q3.txt)
+[Cmpdir-Script](Cmpdir-Script/#EN_19390005.G9.EX2.Q3.txt)
 
 For the detailed Documentation and Source Code of Bck script, click the link:
-[Bck-Script][Bck-Script/#EN_19390005.G9.EX2.Q4.txt)
+[Bck-Script](Bck-Script/#EN_19390005.G9.EX2.Q4.txt)
 
 For the detailed Documentation and Source Code of Mfproc script, click the link:
-[Mfproc-Script][Mfproc-Script/#EN_19390005.G9.EX2.Q5.txt)
+[Mfproc-Script](Mfproc-Script/#EN_19390005.G9.EX2.Q5.txt)
 
 
 ## Course Information
@@ -138,16 +138,16 @@ Execute the scripts with the appropriate arguments:
 [Searching-Script](Searching-Script/#GR_19390005.G9.EX2.Q1.txt)
 
 Για τη λεπτομερή Τεκμηρίωση και τον πηγαίο Κώδικα του σεναρίου Createpvs, κάντε κλικ στο σύνδεσμο:
-[Createpvs-Script][Createpvs-Script/#GR_19390005.G9.EX2.Q2.txt)
+[Createpvs-Script](Createpvs-Script/#GR_19390005.G9.EX2.Q2.txt)
 
 Για τη λεπτομερή Τεκμηρίωση και τον πηγαίο Κώδικα του σεναρίου Cmpdir, κάντε κλικ στο σύνδεσμο:
-[Cmpdir-Script][Cmpdir-Script/#GR_19390005.G9.EX2.Q3.txt)
+[Cmpdir-Script](Cmpdir-Script/#GR_19390005.G9.EX2.Q3.txt)
 
 Για τη λεπτομερή Τεκμηρίωση και τον πηγαίο Κώδικα του σεναρίου Bck, κάντε κλικ στο σύνδεσμο:
-[Bck-Script][Bck-Script/#GR_19390005.G9.EX2.Q4.txt)
+[Bck-Script](Bck-Script/#GR_19390005.G9.EX2.Q4.txt)
 
 Για τη λεπτομερή Τεκμηρίωση και τον Πηγαίο Κώδικα του σεναρίου Mfproc, κάντε κλικ στο σύνδεσμο:
-[Mfproc-Script][Mfproc-Script/#GR_19390005.G9.EX2.Q5.txt)
+[Mfproc-Script](Mfproc-Script/#GR_19390005.G9.EX2.Q5.txt)
 
 ## Πληροφορίες μαθήματος
 - **Μάθημα**: [Λειτουργικά Συστήματα 1](https://ice.uniwa.gr/education/undergraduate/courses/operating-systems-i/)
