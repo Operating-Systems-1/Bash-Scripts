@@ -33,7 +33,7 @@
 # the "path" "./mfproc.sh", we run the "script".
 
 chmod u+x mfproc.sh
-./cmpdir.sh 
+./mfproc.sh 
 
 # SOURCE CODE
 

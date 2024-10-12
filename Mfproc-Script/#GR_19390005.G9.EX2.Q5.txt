@@ -33,7 +33,7 @@
 # το "path" "./mfproc.sh", τρέχουμε το "script".
 
 chmod u+x mfproc.sh
-./cmpdir.sh 
+./mfproc.sh 
 
 # ΠΗΓΑΙΟΣ ΚΩΔΙΚΑΣ
 

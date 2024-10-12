@@ -94,7 +94,7 @@ fi
 fi
 
 
-# TESTIMONY
+# DOCUMENTATION
 #
 # CHECKING A MULTITUDE OF PARAMETERS
 # The script starts by checking the number of parameters set by the user.
