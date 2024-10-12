@@ -1,0 +1,216 @@
+#
+# Laboratory OS 1 / Exercise 2 / Question 2 / 2021-2022
+# Name : Athanasiou Vasileios Evangelos
+# Student ID : 19390005
+#
+-----------------------------------------------------------------------------
+# Question 2.
+# In an application we need to create new directories which it will find and
+# will use. Write a script called createpvs which will be called with a parameter.
+# ROOTFOLDER, no_of_DBFOLDERS, no_of_DATAFOLDERS, USERNAME e.g.
+# createpvs /etc/data 0 5 user555
+# which will do the following:
+# - It will check the number of definitions to be 4
+# - It will check if the ROOTFOLDER exists in which the new names will be created 
+# directories
+# - Check if the USERNAME user exists (inside the /etc/passwd file)
+# - If all checks are successful,
+# - It will create as many subfolders named dbfolderN inside ROOTFOLDER 
+# as many as indicated by no_of_DBFOLDERS and in such a way that no 
+# overwrite existing folders. E.g. if the last folder that had 
+# created by a previous run is dbfolder18 and we want 6 new ones, it will 
+# we need to create dbfolder19, dbfolder20,...,dbfolder24 (if the parameter 
+# is 0 we should not create any).
+# - The same should be true (i.e. created without "overwrite") for 
+# subfolders datafolderN specified by no_of_DATAFOLDERS.
+# - After creating the folders, it will use the chown command to give 
+# ownership of the new folders to the USERNAME user.
+#
+# Answer: Below, we have the "script" named "createpvs.sh" which answers the "Question
+# 2", as well as the source code documentation. First, to run, without any pre-
+# without fail, with the command "chmod u+x createpvs.sh" we give the "user" the right to execute
+# execute the "shell script". Finally, with the "path" "./createpvs.sh $1 $2 $3 $4", we run the 
+# "script", where "$1" is the first parameter, "$2" is the second parameter, "$3" is the third parameter
+# and "$4" the fourth parameter, which are explained in detail in the documentation.
+
+chmod u+x createpvs.sh
+./createpvs.sh $1 $2 $3 $4
+
+# SOURCE CODE
+
+#! /bin/bash
+
+if [[ $# -ne 4 ]]; then
+echo "Error in parameters"
+echo "Script $0 needs rootfolder, no_of_dbfolders, no_of_datafolders and username"
+else
+
+ROOTFOLDER=$1
+no_of_DBFOLDERS=$2
+no_of_DATAFOLDERS=$3
+USERNAME=$4
+
+if [[ ! -e $ROOTFOLDER ]]; then
+echo " "
+echo "$ROOTFOLDER does not exist"
+exit 124
+fi
+check_user=`grep ^$USERNAME /etc/passwd | wc -l`
+if [[ $check_user -eq 0 ]]; then
+echo " "
+echo "$USERNAME does not exist"
+exit 125
+fi
+
+res=$?
+
+if [[ $res -eq 0 ]]; then
+
+for ((i=1; i<=$no_of_DBFOLDERS; i++))
+do
+mkdir ./$ROOTFOLDER/dbfolder$i
+res=$?
+if [[ $res -ne 0 ]]; then
+no_of_DBFOLDERS=$(($no_of_DBFOLDERS+1))
+else
+sudo chown $USERNAME:$USERNAME ./$ROOTFOLDER/dbfolder$i
+fi
+done
+
+for ((j=1; j<=$no_of_DATAFOLDERS; j++))
+do
+mkdir ./$ROOTFOLDER/datafolder$j
+res=$?
+if [[ $res -ne 0 ]]; then
+no_of_DATAFOLDERS=$(($no_of_DATAFOLDERS+1))
+else
+sudo chown $USERNAME:$USERNAME ./$ROOTFOLDER/datafolder$j
+fi
+done
+echo " "
+ls -l $ROOTFOLDER
+echo " "
+fi
+fi
+
+
+# TESTIMONY
+#
+# CHECKING A MULTITUDE OF PARAMETERS
+# The script starts by checking the number of parameters set by the user.
+# More specifically, with an "if-else" check command it checks if the number of parameters is
+# "4". If it is not "4", then the "echo" command prints from the "standard output" the
+# messages "Error in parameters" and "Script $0 needs rootfolder, no_of_dbfolders, 
+# no_of_datafolders and username", where "$0" is the content of parameter "0" which
+# is the name of the "shell script" (createpvs.sh). If it is "4" then the commands
+# of "else" explained below.
+#
+# PARAMETERS 
+# The variable "ROOTFOLDER" is assigned the content of the first parameter that 
+# is a list.
+# The variable "no_of_DBFOLDERS" is assigned the content of the second parameter which is 
+# an integer indicating the number of 'dbfolders' that the user wants to create.
+# create in the "$ROOTFOLDER" directory.
+# The variable "no_of_DATAFOLDERS" is assigned the content of the third parameter which is 
+# an integer number indicating the number of 'datafolders' the user wants to create.
+# to create in the "$ROOTFOLDER" directory.
+# The variable "USERNAME" is assigned the content of the fourth parameter which is the name of the user's # name.
+# name of a user.
+#
+# CHECKING THE EXISTENCE OF A GIVEN DIRECTORY
+# With an "if" check command we check if the given directory exists in the operating system
+# If it does not exist, then the if commands are executed, which are 
+# are "2" commands, "echo" which prints the message "$ROOTFOLDER does not exist", where 
+# "$ROOTFOLDER" is the name of the given directory, and the "exit 124" command, where it terminates the
+# program by returning the value "124" (error value). If, there is the program flow
+# is passed to the following commands.
+#
+# USER EXISTENCE CHECKS
+# The variable "check_user" is assigned the result of the command "grep ^$USERNAME /etc/passwd 
+# | wc -l", where it "matches" the "patterns" (grep) starting (^) with the $USERNAME pattern,
+# given by the user for a fourth parameter. The "wc -l" command returns the number of 
+# lines returned in the "standard output" by "grep", thanks to the piping (|) of the two commands.
+# the two commands. Then, a check command "if" checks the contents of "check_user" and 
+# if it contains the value "0", then "echo" prints the message "$USERNAME does not exist",
+# where "$USERNAME" is the name of the given user and is returned with "exit" to the functional
+# system, the value "125" (error value). If it does not contain the value "0" the program flow
+# is transferred to the following commands.
+#
+# CREATE "DBFOLDERS"
+# First, the variable "res" is assigned the content "$?" which is the value returned
+# the immediately preceding command. An "if" check command is used to check the contents of "res"
+# and if it contains the value "0", then with a "for" iteration command and a repeat condition, the "for" command is used to #
+# replay condition "i=1; i<=$no_of_DBFOLDERS; i++", where "$no_of_DBFOLDERS" is the content of the variable
+# no_of_DBFOLDERS' which the user has given as a second argument, the 
+# "dbfolders" is created within "$ROOTFOLDER". In detail, the "mkdir" command creates the 
+# subdirectories with "path" "./$ROOTFOLDER/dbfolder$i" (dbfolder1, dbfolder2 ...), one at a time 
+# each time the loop is executed. If, it contains the value "0", then, the flow of the program is transferred to the
+# transferred to the next commands.
+#
+# RETRIEVE PERMISSIONS OF "DBFOLDERS" TO "USERNAME"
+# First, the variable "res" is assigned the content "$?" which is the value returned
+# the immediately preceding command. An "if-else" check command is used to check the content of the
+# "res" and if it does not contain the value "0", the content of the variable 
+# "no_of_DBFOLDERS" by "1", so that it does not "overwrite" existing folders in a per-
+# drop created by a previous execution. If, it contains a value of "0", then, execute-
+# the commands of "else" are executed. With the command "sudo chown $USERNAME:$USERNAME ./$ROOTFOLDER
+# /dbfolder$i" gives ownership of the new subdirectories "dbfolders" to the user "$USERNAME" given as the fourth parameter by 
+# user. 
+#
+# CREATE "DATAOLDERS"
+# With a repeat command "for" and a repeat condition "j=1; j<=$no_of_DATAFOLDERS; j++", 
+# where "$no_of_DATAFOLDERS" is the content of the variable "no_of_DATAFOLDERS" given
+# for a second argument the user creates the "datafolders" inside "$ROOTFOLDER". Ana-
+# lytically, with the "mkdir" command, the subdirectories are created with "path" "./$ROOTFOLDER
+# /datafolder$j" (datafolder1, datafolder2 ...) each time the loop is executed.
+#
+# RETRIEVE PERMISSIONS OF "DATAFOLDERS" TO "USERNAME"
+# Initially, the variable "res" is assigned the content "$?" which is the value returned
+# the immediately preceding command. An "if-else" check command is used to check the content of the
+# "res" and if it does not contain the value "0", the content of the variable 
+# "no_of_DATAFOLDERS" by "1", so that it does not "overwrite" existing folders in a per-
+# drop created by a previous execution. If, it contains a value of "0", then, execute-
+# the commands of "else" are executed. With the command "sudo chown $USERNAME:$USERNAME ./$ROOTFOLDER
+# /datafolder$j" gives ownership of the new subdirectories "datafolders" to the user 
+# "$USERNAME" given as fourth parameter by the user. 
+#
+#
+# EXAMPLES
+#
+# 
+# # EXAMPLE 1
+#
+# Result of executing the command "./createpvs.sh" :
+#
+# Error in parameters
+# Script ./createpvs.sh needs rootfolder, no_of_dbfolders, no_of_datafolders and username
+#
+#
+# EXAMPLE 2
+#
+# Result of running the command "./createpvs.sh Folder 2 2 root" :
+#
+# total 16
+# drwxrwxr-x 2 root root 4096 Jan 23 23:36 datafolder1
+# drwxrwxr-x 2 root root 4096 Jan 23 23:36 datafolder2
+# drwxrwxr-x 2 root root 4096 Jan 23 23:35 dbfolder1
+# drwxrwxr-x 2 root root 4096 Jan 23 23:36 dbfolder2
+#
+#
+# EXAMPLE 3
+#
+# Result of executing the command "./createpvs.sh Folder 2 2 ice19390005" :
+#
+# cleatotal 32
+# drwxrwxr-x 2 ice19390005 ice19390005 4096 Jan 23 23:36 datafolder1
+# drwxrwxr-x 2 ice19390005 ice19390005 4096 Jan 23 23:36 datafolder2
+# drwxrwxr-x 2 ice19390005 ice19390005 4096 Jan 23 23:38 datafolder3
+# drwxrwxr-x 2 ice19390005 ice19390005 4096 Jan 23 23:38 datafolder4
+# drwxrwxr-x 2 ice19390005 ice19390005 4096 Jan 23 23:35 dbfolder1
+# drwxrwxr-x 2 ice19390005 ice19390005 4096 Jan 23 23:36 dbfolder2
+# drwxrwxr-x 2 ice19390005 ice19390005 4096 Jan 23 23:38 dbfolder3
+# drwxrwxr-x 2 ice19390005 ice19390005 4096 Jan 23 23:38 dbfolder4
+
+
+
+

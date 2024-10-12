@@ -1,0 +1,112 @@
+#
+# Laboratory OS 1 / Exercise 2 / Question 3 / 2021-2022
+# Name : Athanasiou Vasileios Evangelos
+# Student ID : 19390005
+#
+-----------------------------------------------------------------------------
+# Question 3.
+# Write a script named cmpdir which compares the contents of two directories
+# (whose names it will take as arguments, and check if they are indeed 
+# directories) in terms of the files they contain. As a result it will first display for each 
+# directory separately, how many and which of its files are not contained in the other directory, and 
+# what their total size is. Then it will display how many and which are 
+# the common files of the two directories and their total size. Finally, it will move 
+# all the common files of the two directories into a third directory (which will be given/
+# also checked as an argument), and will create in the two original directories - an argument-
+# the appropriate hard links to them. 
+#
+# Answer: Below, we have the "script" named "cmpdir.sh" which answers the "Question-
+# Question 3" First, to run, without any problems, with the command "chmod u+x". 
+# cmpdir.sh" we give the "user" the right to execute the "shell script". Finally, with 
+# the "path" "./cmpdir.sh $1 $2 $3", we run the "script", where "$1" is the first parameter,
+# "$2" the second parameter and "$3" the third parameter.
+
+chmod u+x cmpdir.sh
+./cmpdir.sh $1 $2 $3 
+
+# SOURCE CODE
+
+#! /bin/bash
+
+if [[ $# -ne 3 ]]; then
+echo " "
+echo "Error in parameters"
+echo "Script $0 needs two names of existing directories and a new one"
+exit 124
+fi
+
+folder1=$1
+folder2=$2
+new_folder=$3
+
+if [[ ! -e $folder1 && ! -e $folder2 ]]; then
+echo "Error in compare of the two directories"
+echo "One or both do not exist"
+exit 125
+else
+num_files_folder1=`diff $folder1 $folder2 | grep ^Only.in.$folder1 | wc -l`
+echo " "
+echo "Number of files which exist in $folder1, but do not exist in $folder2 : $num_files_folder1"
+echo " "
+diff $folder1 $folder2 | grep ^Only.in.$folder1
+echo " "
+echo "--------------------------------------------------------------------------"
+echo " "
+num_files_folder2=`diff $folder1 $folder2 | grep ^Only.in.$folder2 | wc -l`
+echo "Number of files which exist in $folder2, but do not exist in $folder1 : $num_files_folder2"
+echo " "
+diff $folder1 $folder2 | grep ^Only.in.$folder2
+echo " "
+fi
+
+for i in `ls $folder1 | grep -v ^hardlink`
+do
+for j in `ls $folder2 | grep -v ^hardlink`
+do
+if [ -f ./$folder1/$j ]; then
+mv ./$folder1/$j $new_folder
+ln ./$new_folder/$j ./$folder1/hardlink_$j
+ln ./$new_folder/$j ./$folder2/hardlink_$j
+rm ./$folder2/$j
+en
+done
+done
+
+echo "--------------------------------------------------------------------------"
+echo " "
+var1=`ls -s $folder1 | grep ^total`
+echo "Overall block size of the files which exist in $folder1, but not in $folder2 : $var1"
+echo " "
+var2=`ls -s $folder2 | grep ^total`
+echo "Overall block size of the files which exist in $folder2, but not in $folder1 : $var2"
+echo " "
+echo "--------------------------------------------------------------------------"
+echo " " "
+var3=`ls $new_folder | grep ^. | wc -l`
+echo "Number of common files of $folder1 and $folder2 : $var3"
+echo " "
+var4=`ls $new_folder | grep ^.`
+echo "Common files of $folder1 and $folder2 :
+
+$var4"
+echo " "
+var5=`ls -s $new_folder | grep ^total`
+echo "Overall block size of common files of $folder1 and $folder2 : $var5"
+echo " "
+echo "--------------------------------------------------------------------------"
+echo "$folder1"
+echo " "
+ls -lis $folder1
+echo " "
+echo "--------------------------------------------------------------------------"
+echo "$folder2"
+echo " "
+ls -lis $folder2
+echo " "
+echo "--------------------------------------------------------------------------"
+echo "$new_folder"
+echo " "
+ls -lis $new_folder
+echo " "
+
+

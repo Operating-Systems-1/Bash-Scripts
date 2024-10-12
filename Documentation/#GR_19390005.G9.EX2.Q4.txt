@@ -1,0 +1,204 @@
+#
+# Εργαστήριο ΛΣ 1 / Άσκηση 2 / Ερώτηση 4α, 4β, 4γ / 2021-2022
+# Ονοματεπώνυμο   : Αθανασίου Βασίλειος Ευάγγελος
+# Αριθμός Μητρώου : 19390005
+#
+-----------------------------------------------------------------------------
+# Ερώτηση 4α.
+# Γράψτε ένα script με όνομα bck το οποίο θα κρατά για έναν συγκεκριμένο χρήστη (το user name
+# του οποίου θα δίνεται ως πρώτο όρισμα) εφεδρικά αντίγραφα μιας περιοχής του λογαριασμού του 
+# σε κάποια άλλη. Το script θα πρέπει να δέχεται ως δεύτερο όρισμα ένα κατάλογο (ή αρχείο), να 
+# δημιουργεί ένα προς αποθήκευση αντίγραφο του ορίσματος (χρήση tar) και να το αντιγράφει 
+# στον κατάλογο που ορίζει το τρίτο όρισμα. Αν ωστόσο το τρίτο όρισμα είναι αρχείο (και όχι 
+# κατάλογος) τότε θα πρέπει απλά να προσθέτει (append) το προς αποθήκευση αντίγραφο στο 
+# αρχείο αυτό. Κάντε τους απαραίτητους ελέγχους και για τα τρία ορίσματα (καθώς και για το 
+# συνολικό αριθμό των ορισμάτων που δόθηκαν κατά την εκτέλεση). 
+#
+# Απάντηση: Παρακάτω, έχουμε το "script" με όνομα "bck.sh" που απαντάει στην "Ερώτηση 4α".
+# Αρχικά, για να τρεξει, χωρίς κανένα πρόβλημα, με την εντολή "chmod u+x bck.sh" δίνουμε
+# το δικαίωμα στον "user" να εκτελέσει το "shell script". Τέλος, με το "path" "./bck.sh $1 $2 $3",
+# τρέχουμε το "script", όπου "$1" η πρώτη παράμετρος, "$2" η δεύτερη παράμετρος και 
+# "$3" η τρίτη παράμετρος.
+
+chmod u+x bck.sh
+./bck.sh $1 $2 $3 
+
+# ΠΗΓΑΙΟΣ ΚΩΔΙΚΑΣ
+
+#! /bin/bash
+
+if [[ $# -ne 3 ]]; then
+  echo "Error in parameters"
+  echo "Script $0 needs username, backup data and target backup folder."
+  exit 124
+fi
+
+username=$1
+backup_data=$2
+target_backup=$3
+
+user_exists=`grep ^$username /etc/passwd | wc -l`
+
+if [[ $user_exists -eq 0 ]]; then
+  echo "$username does not exist in the operating system"
+  exit 125
+else
+  if [[ ! -e $backup_data ]]; then
+    echo "$backup_data does not exist in the operating system"
+    exit 219
+  else
+    if [[ -e $target_backup && -f $target_backup ]]; then
+      echo " "
+      tar -rvf /home/$username/$backup_data.tar /home/$username/$target_backup
+      echo " "
+      echo "--------------------------------------------------------------------------------"
+    else
+      echo " "
+      tar -cvf /home/$username/$backup_data/$backup_data.tar /home/$username/$backup_data
+      mv /home/$username/$backup_data/$backup_data.tar /home/$username/$target_backup
+      echo " "
+      echo "---------------------------------------------------------------------------------"
+    fi
+  fi
+fi
+
+res=$?
+
+if [[ $res -ne 0 ]]; then
+  echo "Could not take backup, errors in tar command"
+  exit 125
+else
+  if [[ ! -f $target_backup ]]; then
+    echo " "
+    echo "These are the current contents of your backup file"
+    echo " "
+    tar -tvf /home/$username/$target_backup/$backup_data.tar
+    echo " "
+  else
+    echo " "
+    echo "These are the current contents of your backup file"
+    echo " "
+    tar -tvf /home/$username/$backup_data.tar
+    echo " "
+  fi
+fi
+
+echo "---------------------------------------------------------------------------------"
+echo "$target_backup"
+echo " "
+ls $target_backup
+echo " "
+
+----------------------------------------------------------------------------------------
+# Ερώτηση 4β.
+# Τροποποιήστε κατάλληλα το script bck (σε bck1) ώστε να πραγματοποιεί το ζητούμενο backup 
+# προγραμματισμένα (χρήση at), σε μια συγκεκριμένη ώρα της επιλογής σας (προσπαθήστε να τη 
+# δίνετε και αυτήν σαν όρισμα).
+#
+# Απάντηση: Παρακάτω, έχουμε το "script" με όνομα "bck1.sh" που απαντάει στην "Ερώτηση 4β".
+# Αρχικά, για να τρεξει, χωρίς κανένα πρόβλημα, με την εντολή "chmod u+x bck1.sh" δίνουμε
+# το δικαίωμα στον "user" να εκτελέσει το "shell script". Τέλος, με το "path" "./bck.sh $1 $2 $3 $4",
+# τρέχουμε το "script", όπου "$1" η πρώτη παράμετρος, "$2" η δεύτερη παράμετρος, "$3" η τρίτη 
+# παράμετρος και "$4" η τέταρτη παράμετρος.
+
+chmod u+x bck1.sh
+./bck1.sh $1 $2 $3 $4 
+
+# ΠΗΓΑΙΟΣ ΚΩΔΙΚΑΣ
+
+#! /bin/bash
+
+if [[ $# -ne 4 ]]; then
+  echo "Error in parameters"
+  echo "Script $0 needs username, backup data, target backup folder and time forjob scheduling"
+  exit 124
+fi
+
+username=$1
+backup_data=$2
+target_backup=$3
+at_job=$4
+
+user_exists=`grep ^$username /etc/passwd | wc -l`
+
+at $at_job <<ENDMARKER
+
+res=$?
+
+if [[ $res -ne 0 ]]; then
+  echo "at command was executed with errors"
+  exit 1
+else
+  if [[ $user_exists -eq 0 ]]; then
+    echo "$username does not exist in the operating system"
+    exit 125
+  else
+    if [[ ! -e $backup_data ]]; then
+      echo "$backup_data does not exist in the operating system"
+      exit 219
+    else
+      if [[ -e $target_backup && -f $target_backup ]]; then
+        tar -rvf /home/$username/$backup_data.tar /home/$username/$target_backup
+      else
+        tar -cvf /home/$username/$backup_data/$backup_data.tar /home/$username/$backup_data
+        mv /home/$username/$backup_data/$backup_data.tar /home/$username/$target_backup
+      fi
+    fi
+  fi
+fi
+
+res=$?
+
+if [[ $res -ne 0 ]]; then
+  echo "Could not take backup, errors in tar command"
+  exit 125
+else
+  if [[ ! -f $target_backup ]]; then
+    echo " "
+    echo "These are the current contents of your backup file"
+    echo " "
+    tar -tvf /home/$username/$target_backup/$backup_data.tar
+  else
+    echo " "
+    echo "These are the current contents of your backup file"
+    tar -tvf /home/$username/$backup_data.tar
+    echo " "
+  fi
+fi
+ENDMARKER
+
+----------------------------------------------------------------------------------------
+# Ερώτηση 4γ.
+# Τροποποιήστε κατάλληλα το script bck (σε bck2) ώστε να εκτελείται χωρίς ορίσματα και απλά 
+# να λαμβάνει αντίγραφο του καταλόγου εργασίας σας στο /tmp, και προγραμματίστε (χρήση cron) 
+# να τρέχει κάθε Κυριακή βράδυ στις 11μμ. για τους επόμενους έξι μήνες.
+#
+# Απάντηση: Παρακάτω, έχουμε το "script" με όνομα "bck2.sh" που απαντάει στην "Ερώτηση 4γ".
+# Αρχικά, για να τρεξει, χωρίς κανένα πρόβλημα, με την εντολή "chmod u+x bck2.sh" δίνουμε
+# το δικαίωμα στον "user" να εκτελέσει το "shell script". Τέλος, με το "path" "./bck.sh",
+# τρέχουμε το "script".
+
+chmod u+x bck2.sh
+./bck2.sh  
+
+# ΠΗΓΑΙΟΣ ΚΩΔΙΚΑΣ
+
+#! /bin/bash
+
+crontab -e
+
+# 
+#
+# Αποτέλεσμα εκτέλεσης της εντολής:
+# m h  dom mon dow   command
+# 0 23 23 1-6 0 tar -zcf /var/home.tgz /tmp/
+
+crontab -l
+
+
+
+
+
+
+
+

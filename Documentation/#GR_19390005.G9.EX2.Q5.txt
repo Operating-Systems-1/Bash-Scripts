@@ -1,0 +1,104 @@
+#
+# Εργαστήριο ΛΣ 1 / Άσκηση 2 / Ερώτηση 5 / 2021-2022
+# Ονοματεπώνυμο   : Αθανασίου Βασίλειος Ευάγγελος
+# Αριθμός Μητρώου : 19390005
+#
+-----------------------------------------------------------------------------
+# Ερώτηση 5.
+# Γράψτε ένα script, με όνομα mfproc και δυνατότητα εισαγωγής 0, 1 ή 2 παραμέτρων ως εξής: 
+# Όνομα 
+# mfproc Εμφανίζει πληροφορίες για διεργασίες με την εξής μορφή: 
+# Name PID PPID UID GID State
+# Συνοπτικά
+# mfproc [-u username] [-s S|R|Z] 
+# -u username Ορίζει τον χρήστη του οποίου τις διεργασίες πρέπει να εμφανίσετε στο standard 
+# output. Αν δεν δοθεί, θα εμφανίσετε όλες τις διεργασίες του ΛΣ 
+# -s state Ορίζει την κατάσταση των διεργασιών που πρέπει να εμφανίσετε στο standard 
+# output. Μπορεί να είναι οτιδήποτε μεταξύ των Running(R), Sleeping (S), Zombie
+# (Z). Αν δεν δοθεί, τότε θα εμφανίσετε όλες τις διεργασίες που βρίσκονται σε οποιαδήποτε από 
+# τις τρεις καταστάσεις 
+# Επιστρεφόμενη τιμή 
+# 0 Δεν υπήρξε λάθος 
+# 1 Δεν υπάρχει ο χρήστης 
+# 2 Δεν υπάρχει διεργασία σε αυτή την κατάσταση 
+# Σημείωση: Στο κατάλογο proc του ΛΣ, πέραν των άλλων, υπάρχουν κατάλογοι με όνομα τον 
+# αριθμό οποιασδήποτε διεργασίας του ΛΣ. Πιο συγκεκριμένα θα πρέπει να χρησιμοποιήσετε το 
+# αρχείο status του καταλόγου /proc/<PID>/status. Κείμενο επεξήγησης για το αρχείο 
+# στατιστικών /proc/<PID>/status: Table 1-2: Contents of the status files του συνδέσμου 
+# https://www.kernel.org/doc/Documentation/filesystems/proc.txt
+#
+# Απάντηση: Παρακάτω, έχουμε το "script" με όνομα "mfproc.sh" που απαντάει στην "Ερώ-
+# τηση 5" Αρχικά, για να τρεξει, χωρίς κανένα πρόβλημα, με την εντολή "chmod u+x 
+# mfproc.sh" δίνουμε το δικαίωμα στον "user" να εκτελέσει το "shell script". Τέλος, με 
+# το "path" "./mfproc.sh", τρέχουμε το "script".
+
+chmod u+x mfproc.sh
+./cmpdir.sh 
+
+# ΠΗΓΑΙΟΣ ΚΩΔΙΚΑΣ
+
+#! /bin/bash
+
+echo " "
+read -p "Input username : " username
+read -p "Input the state of the process you are looking for (S|R|Z) : " state
+echo " "
+
+if [[ -z "$username" ]]; then
+  echo "----------------------------------------------------------------------"
+  echo " All the processes of the operating system"
+  echo " "
+  ps -eo user,pid,ppid,uid,gid,state
+  echo " "
+else
+  echo " "
+  echo "----------------------------------------------------------------------"
+  echo " "
+  echo "Trying to find processes for user $username"
+  echo " "
+  user_exists=`cat /etc/passwd | grep ^$username | wc -l`
+  if [[ $user_exists -eq 0 ]]; then
+    echo " "
+    echo "----------------------------------------------------------------------"
+    echo " "
+    echo "User $username does not exist in the operating system"
+    echo "Exiting with 1"
+    echo " "
+    exit 1
+  else
+    ps -eo user,pid,ppid,uid,gid,state | grep ^$username > $username.txt
+    ps -eo user,pid,ppid,uid,gid,state | grep ^USER > USER.txt
+    cat $username.txt >> USER.txt
+    cat USER.txt
+    echo " "
+  fi
+fi
+
+if [[ -z "$state" ]]; then
+  echo "----------------------------------------------------------------------"
+  echo "All the processes of the operating system in any state (S|R|Z)"
+  echo " "
+  ps -eo user,pid,ppid,uid,gid,state | grep [S,R,Z]$
+  echo " "
+else
+  echo " "
+  echo "----------------------------------------------------------------------"
+  echo " "
+  echo "Trying to find processes with state $state"
+  echo " "
+  if [[ "$state" == "S" || "$state" == "R" || "$state" == "Z" ]]; then
+    ps -eo user,pid,ppid,uid,gid,state | grep ^$username | grep $state$ > $state.txt
+    ps -eo user,pid,ppid,uid,gid,state | grep GID.S$ > STATE.txt
+    cat $state.txt >> STATE.txt
+    cat STATE.txt
+    echo " "
+  else
+    echo " "
+    echo "----------------------------------------------------------------------"
+    echo " "
+    echo "Process with state $state does not exist in the operating system"
+    echo "Exiting with 2"
+    echo " "
+    exit 2
+  fi
+fi

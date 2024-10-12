@@ -1,0 +1,204 @@
+#
+# Laboratory OS 1 / Exercise 2 / Question 4a, 4b, 4c / 2021-2022
+# Name : Athanasiou Vasileios Evangelos
+# Student ID : 19390005
+#
+-----------------------------------------------------------------------------
+# Question 4a.
+# Write a script named bck which will hold for a particular user (the user name
+# whose name is given as the first argument) backs up an area of his account 
+# to another. The script should accept a directory (or file) as a second argument, accept 
+# create a copy of the argument to be saved (use tar) and copy it 
+# to the directory specified by the third argument. However, if the third argument is a file (and not a 
+# directory) then it should simply append the copy to be saved to the 
+# file. Make the necessary checks for all three arguments (as well as for the 
+# total number of definitions given at runtime). 
+#
+# Answer: Below, we have the "script" named "bck.sh" that answers "Question 4a".
+# First, to run it, without any problems, with the command "chmod u+x bck.sh" we give
+# We give the "user" the right to execute the "shell script". Finally, with the "path" "./bck.sh $1 $2 $3"
+# run the "script", where "$1" is the first parameter, "$2" is the second parameter and 
+# "$3" the third parameter.
+
+chmod u+x bck.sh
+./bck.sh $1 $2 $3 
+
+# SOURCE CODE
+
+#! /bin/bash
+
+if [[ $# -ne 3 ]]; then
+echo "Error in parameters"
+echo "Script $0 needs username, backup data and target backup folder."
+exit 124
+fi
+
+username=$1
+backup_data=$2
+target_backup=$3
+
+user_exists=`grep ^$username /etc/passwd | wc -l`
+
+if [[ $user_exists -eq 0 ]]; then
+echo "$username does not exist in the operating system"
+exit 125
+else
+if [[ ! -e $backup_data ]]; then
+echo "$backup_data does not exist in the operating system"
+exit 219
+else
+if [[ -e $target_backup && -f $target_backup ]]; then
+echo " "
+tar -rvf /home/$username/$backup_data.tar /home/$username/$target_backup
+echo " "
+echo "--------------------------------------------------------------------------------"
+else
+echo " "
+tar -cvf /home/$username/$backup_data/$backup_data.tar /home/$username/$backup_data
+mv /home/$username/$backup_data/$backup_data/$backup_data.tar /home/$username/$target_backup
+echo " "
+echo "---------------------------------------------------------------------------------"
+en
+fi
+fi
+
+res=$?
+
+if [[ $res -ne 0 ]]; then
+echo "Could not take backup, errors in tar command"
+exit 125
+else
+if [[ ! -f $target_backup ]]; then
+echo " "
+echo "These are the current contents of your backup file"
+echo " "
+tar -tvf /home/$username/$target_backup/$backup_data.tar
+echo " "
+else
+echo " "
+echo "These are the current contents of your backup file"
+echo " "
+tar -tvf /home/$username/$backup_data.tar
+echo " "
+en
+fi
+
+echo "---------------------------------------------------------------------------------"
+echo "$target_backup"
+echo " "
+ls $target_backup
+echo " "
+
+----------------------------------------------------------------------------------------
+# Question 4b.
+# Modify the bck script (to bck1) appropriately to perform the requested backup 
+# scheduled (use at), at a specific time of your choice (try to 
+# give this as an argument as well).
+#
+# Answer: Below, we have the "script" named "bck1.sh" which answers "Question 4b".
+# First, to run it, without any problems, with the command "chmod u+x bck1.sh" we give
+# We give the "user" the right to execute the "shell script". Finally, with the "path" "./bck.sh $1 $2 $3 $4"
+# run the "script", where "$1" is the first parameter, "$2" is the second parameter, "$3" is the third parameter 
+# parameter and "$4" the fourth parameter.
+
+chmod u+x bck1.sh
+./bck1.sh $1 $2 $3 $4 
+
+# SOURCE CODE
+
+#! /bin/bash
+
+if [[ $# -ne 4 ]]; then
+echo "Error in parameters"
+echo "Script $0 needs username, backup data, target backup folder and time forjob scheduling"
+exit 124
+fi
+
+username=$1
+backup_data=$2
+target_backup=$3
+at_job=$4
+
+user_exists=`grep ^$username /etc/passwd | wc -l`
+
+at $at_job <<ENDMARKER
+
+res=$?
+
+if [[ $res -ne 0 ]]; then
+echo "at command was executed with errors"
+exit 1
+else
+if [[ $user_exists -eq 0 ]]; then
+echo "$username does not exist in the operating system"
+exit 125
+else
+if [[ ! -e $backup_data ]]; then
+echo "$backup_data does not exist in the operating system"
+exit 219
+else
+if [[ -e $target_backup && -f $target_backup ]]; then
+tar -rvf /home/$username/$backup_data.tar /home/$username/$target_backup
+else
+tar -cvf /home/$username/$backup_data/$backup_data.tar /home/$username/$backup_data
+mv /home/$username/$backup_data/$backup_data/$backup_data.tar /home/$username/$target_backup
+en
+fi
+fi
+fi
+
+res=$?
+
+if [[ $res -ne 0 ]]; then
+echo "Could not take backup, errors in tar command"
+exit 125
+else
+if [[ ! -f $target_backup ]]; then
+echo " "
+echo "These are the current contents of your backup file"
+echo " "
+tar -tvf /home/$username/$target_backup/$backup_data.tar
+else
+echo " "
+echo "These are the current contents of your backup file"
+tar -tvf /home/$username/$backup_data.tar
+echo " "
+en
+fi
+ENDMARKER
+
+----------------------------------------------------------------------------------------
+# Question 4c.
+# Modify the script bck (in bck2) to run without arguments and simply 
+# get a copy of your working directory in /tmp, and program (using cron) 
+# to run every Sunday night at 11pm for the next six months.
+#
+# Answer: Below, we have the "script" named "bck2.sh" that answers "Question 4c".
+# First, to get it running, without any problems, with the command "chmod u+x bck2.sh" we give
+# We give the "user" the right to execute the "shell script". Finally, with the "path" "./bck.sh"
+# we run the "script".
+
+chmod u+x bck2.sh
+./bck2.sh 
+
+# SOURCE CODE
+
+#! /bin/bash
+
+crontab -e
+
+# 
+#
+# Result of executing the command:
+# m h dom mon dow command
+# 0 23 23 1-6 0 tar -zcf /var/home.tgz /tmp/
+
+crontab -l
+
+
+
+
+
+
+
+

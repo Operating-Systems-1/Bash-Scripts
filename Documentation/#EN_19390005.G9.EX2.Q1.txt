@@ -1,0 +1,438 @@
+#
+# Laboratory OS 1 / Exercise 2 / Question 1 / 2021-2022
+# Name : Athanasiou Vasileios Evangelos
+# Student ID : 19390005
+#
+-----------------------------------------------------------------------------
+# Question 1.
+# Write a "script" with the name "searching" which (a) accepts as 
+# two integer numbers as arguments and (b) asks the user for the name 
+# of a list, and based on these, display the following on the screen (the 
+# "1-3" using the "find" command and "4-5" using a combination of the commands 
+# "ls" and "grep"):
+# 1. The tree files of the given directory with authorizations 
+# (permissions) the first number (argument) considering it as octal 
+# equivalent.
+# 2. The files in the tree of the given directory that were changed (modify) 
+# contents in the last 'x' days, where 'x' is the second number 
+# (argument).
+# 3. The subdirectories of the tree of the given directory that were accessed; -
+# accessed in the last 'x' days, where 'x' is the second number 
+# (argument).
+# 4. The files in the given directory to which the given directory has read access are the files that are readable by the given directory's users. 
+# all users have access to.
+# 5. The subdirectories of the given directory to which they have access 
+# create/rename/delete files) and other users have the right to change (create/rename/delete files) 
+# users of the system.
+# Before printing each list from the above (1 to 5), print out each list 
+# an appropriate header indicating, among other things, the number of 
+# files (or sub-lists) to be printed. The 'script' should be executed
+# executed as many times as the user wishes (for different directories). 
+# and at the end (before the final output) to display the total number of files
+# total number of found (files/subdirectories) of each case 
+# (from 1 to 6) for all directories searched.
+#
+# Answer: Below, we have the "script" named "searching.sh" that answers the "Question
+# 1", as well as the source code documentation. First, to run, without any pre-
+# With the command "chmod u+x searching.sh" we give the "user" the right to execute the search.sh file.
+# execute the "shell script". Finally, with the "path" "./searching.sh $1 $2", we run the "script", 
+# where "$1" is the first parameter and "$2" is the second parameter, which are explained in detail in 
+# documentation.
+
+chmod u+x searching.sh
+./searching.sh $1 $2
+
+# SOURCE CODE
+
+#! /bin/bash
+
+if [[ $# -ne 2 ]]; then
+echo "Error in parameters"
+echo "Script $0 needs permissions in octal and number of days"
+exit 125
+fi
+
+num_octal_per=$1
+num_days=$2
+all_files_subdir=0
+
+while (true)
+do
+
+echo " "
+echo "============================================================="
+echo " "
+read -p "Type the name of a directory : " name_dir
+echo " "
+if [[ ! -e $name_dir ]]; then
+echo " "
+echo "Directory does not exist in the operating system"
+echo " "
+echo "Overall number of printed files and subdirectories : $all_files_subdir"
+echo " "
+exit 124
+else
+errors1=0
+num_files1=`find $name_dir -type f -perm $num_octal_per | wc -l`
+echo "-------------------------------------------------------------"
+echo "OPERATION 1"
+echo " "
+echo "Number of expectedly printed files : $num_files1"
+echo " "
+find $name_dir -type f -perm $num_octal_per
+errors1=$?
+echo " "
+
+if [[ $errors1 -ne 0 ]]; then
+echo "Find was executed with errors"
+echo "Give new parameters"
+echo " "
+exit 301
+fi
+
+errors2=0
+num_files2=`find $name_dir -type f -mtime $num_days | wc -l`
+echo "-------------------------------------------------------------"
+echo "OPERATION 2"
+echo " "
+echo "Number of expectedly printed files : $num_files2"
+echo " "
+find $name_dir -type f -mtime $num_days
+errors2=$?
+echo " "
+
+if [[ $errors2 -ne 0 ]]; then
+echo "Find was executed with errors"
+echo "Give new parameters"
+echo " "
+exit 101
+fi
+
+errors3=0
+num_subdir3=`find $name_dir -type d -atime $num_days | wc -l`
+echo "-------------------------------------------------------------"
+echo "OPERATION 3"
+echo " "
+echo "Number of expectedly printed subdirectories : $num_subdir3"
+echo " "
+find $name_dir -type d -atime $num_days
+errors3=$?
+echo " "
+
+if [[ $errors3 -ne 0 ]]; then
+echo "Find was executed with errors"
+echo "Give new parameters"
+echo " "
+exit 169
+fi
+
+num_files4=`ls -al $name_dir | grep ^-r...r...r | wc -l`
+echo "------------------------------------------------------------"
+echo "OPERATION 4"
+echo " "
+echo "Number of expectedly printed files : $num_files4"
+echo " "
+ls -al $name_dir | grep ^-r..r..r
+echo " "
+num_subdir5=`ls -al $name_dir | grep ^d.w..w..w..wc -l`
+echo "-------------------------------------------------------------"
+echo "OPERATION 5"
+echo " "
+echo "Number of expectedly printed subdirectories : $num_subdir5"
+echo " "
+ls -al $name_dir | grep ^d.w..w..w
+all_files_subdir=$(($all_files_subdir+$(($num_files1+$num_files2+
+$num_subdir3+$num_files4+$num_subdir5))))
+echo " "
+echo "============================================================="
+en
+echo " "
+read -p "Type 1 for continue or 0 for end of searching : " num_loop
+echo " "
+if [[ num_loop -eq 0 ]]; then
+echo "============================================================="
+echo " " "
+echo "End of searching"
+echo " "
+echo "Overall number of printed files and subdirectories : $all_files_subdir"
+echo " "
+exit 0
+fi
+done
+
+# TESTIMONY
+#
+# CHECKING A MULTITUDE OF PARAMETERS
+# The script starts by checking the number of parameters set by the user.
+# In more detail, with an "if" check command it checks if the number of parameters is
+# "2". If it is not "2", then the "echo" command prints from the "standard output" the
+# messages "Error in parameters" and "Script $0 needs permissions in octal and number 
+# of days", where "$0" is the content of parameter "0" which is the name of the 
+# "shell script" (searching.sh). If it is "2" the program flow is transferred to the
+# subsequent commands.
+#
+# PARAMETERS / VARIABLES
+# The variable "num_octal_per" is assigned the content of the first parameter that 
+# is a three-digit integer, where it plays the role of the octal equivalent
+# for the permissions of a file or directory (e.g. 777).
+# The variable "num_days" is assigned the content of the second parameter which is 
+# an integer, indicating a number of days.
+# The variable "all_files_subdir" is assigned the value "0" as the first value for the calculator.
+# the total number of files and subdirectories searched.
+# 
+# RAIN
+# With the repeat command "while" and condition "true" the "script" is executed repeatedly.
+# repeatedly until the repeat condition is set to 'false' (0).
+#
+# DIRECTORY NAME INPUT
+# With the 'read' command the user reads from the 'standard input' the name of a directory
+# and is assigned to the variable "name_dir". With the parameter "-p" the input is accompanied by
+# the message "Type the name of a directory : ".
+#
+# CHECKING THE EXISTENCE OF A GIVEN DIRECTORY
+# A check command "if-else" is used to check whether the given directory exists in the operating system.
+# system (! -e $name_dir). If it does not exist, then the "if" commands are executed. 
+# are "2" "echo" commands which print the messages "Directory does not exist in the 
+# operating system" and "Overall number of printed files and subdirectories : 
+# $all_files_subdir", where "$all_files_subdir" is the content of the variable. Also, the
+# command "exit 124" terminates the program by returning the value "124" (error value).
+#
+# FUNCTIONS 1, 2, 3, 4, 5
+# If the given directory exists from the "given directory check", execute the "given directory check".
+# the commands of 'else' are executed, where are the '5' functions answering the '5' requests
+# of "Question 1".
+#
+# FUNCTION 1
+# In function "1", the value "0" is initially assigned to the variable "errors1" as the first value
+# of the auxiliary variable for the existence of errors in the commands that will execute the function.
+# operation "1". The variable 'num_files1' is assigned the result of the command 'find $name_dir 
+# -type f -perm $num_octal_per | wc -l", where it finds in the directory ($name_dir) that 
+# the files (-type f), where they have "permissions" (-perm) the first term
+# the first term ($num_octal_per) also given by the user. The command "wc -l" returns the full number of the number of
+# of lines returned in the "standard output" by the "find" command, thanks to the
+# (|) of the two commands. The command "echo" prints the message "Number of expectedly 
+# printed files : $num_files1", where "$num_files1" is the content of the variable 
+# "num_files1". Finally, the command "find $name_dir -type f -perm $num_octal_per" prints the 
+# desired files in the given directory and the variable "errors1" is assigned the content of the # directory.
+# The variable "$?" which is the value returned by the immediately preceding command (find).
+#
+# OPERATION ERROR CHECK 1
+# An "if" check command is used to check the contents of "errors1". If it does not contain 
+# value "0", then, the messages "Find was executed with errors" are printed with "echo".
+# and "Give new parameters" and the "exit" command terminates the program by returning 
+# the operating system the value "301" (error value). 
+#
+# FUNCTION 2
+# In mode "2" the value "0" is initially assigned to the variable "errors2" as the first value
+# of the auxiliary variable for the existence of errors in the commands that will execute the operation.
+# operation "2". The variable "num_files2" is assigned the result of the command "find $name_dir 
+# -type f -mtime $num_days | wc -l", where it finds in the directory ($name_dir) that 
+# the files (-type f) given by the user where the contents have changed during "$num_days" 
+# last days (-mtime) that the user has also provided. The command "wc -l" returns 
+# the number of lines returned in the "standard output" by the "find" command, thanks to the 
+# piping (|) of the two commands. The command "echo" prints the message "Number of 
+# expectedly printed files : $num_files2", where "$num_files2" is the content of the variable
+# "num_files2". Finally, the command "find $name_dir -type f -mtime $num_days" prints 
+# the desired files in the given directory and the variable "errors2" is assigned the 
+# content "$?" which is the value returned by the immediately preceding command (find).
+#
+# OPERATION ERROR CHECK 2
+# An "if" check command is used to check the contents of "errors2". If it does not contain 
+# value "0", then, the messages "Find was executed with errors" are printed with "echo".
+# and "Give new parameters" and the "exit" command terminates the program by returning 
+# the operating system the value "101" (error value).
+#
+# FUNCTION 3
+# In mode "3" the value "0" is initially assigned to the variable "errors3" as the first value
+# of the auxiliary variable for the existence of errors in the commands that will execute the operation.
+# function "3". The variable 'num_subdir3' is assigned the result of the command 'find $name_dir 
+# -type d -atime $num_days | wc -l", where it finds in the directory ($name_dir) that 
+# the subdirectories (-type d) given by the user where they were accessed during "$num_days" 
+# last days (-atime) also provided by the user. The command "wc -l" returns 
+# the number of lines returned in the "standard output" by the "find" command, thanks to the 
+# piping (|) of the two commands. The command "echo" prints the message "Number of 
+# expectedly printed subdirectories : $num_subdir3", where "$num_subdir3" is the content of 
+# of the variable "num_subdir3". Finally, the command "find $name_dir -type f -mtime $num_days" 
+# prints the desired subdirectories of the given directory to the variable "errors3"
+# assigns the content "$?" which is the value returned by the immediately preceding 
+# command (find).
+#
+# OPERATION ERROR CHECK 3
+# An "if" check command is used to check the contents of "errors3". If it does not contain the 
+# value "0", then the "echo" message "Find was executed with errors" is printed.
+# and "Give new parameters" and the "exit" command terminates the program by returning 
+# the operating system the value "169" (error value).
+#
+# FUNCTION 4
+# In mode "4", initially, the variable "num_files4" is assigned the result of the internal # file search.
+# "ls -al $name_dir | grep ^-r..r...r | wc -l", where it displays all the contents (-a)
+# of the directory "$name_dir" with their properties (-l) given by the user. The command
+# "grep ^-r...r...r" matches the patterns returned by "ls -al $name_dir" 
+# (thanks to the piping of the two commands (|)) to the "standard output", where they start (^) with 
+# standard "-r..r..r", i.e., the files in the directory "$name_dir" that are allowed to be read
+# knowledge (r) for all users. The command "wc -l" returns the number of lines that were used to create the # directory
+# turned into "standard output" by the piping of the "ls" and "grep" commands, thanks to the piping of the "ls" and "grep" commands. 
+# (|) of the three commands. The "echo" command prints the message "Number of expectedly
+# printed files : $num_files4", where "$num_files4" is the content of the variable 
+# "num_files4". Finally, the command "ls -al $name_dir | grep ^-r..r..r" prints the desired
+# files in the given directory.
+#
+# FUNCTION 5
+# In mode "5", first, the variable "num_subdir5" is assigned the result of the en-
+# ls -al $name_dir | grep ^d.w..w..w..w | wc -l", where, it displays all the contents (-a)
+# of the directory "$name_dir" with their properties (-l) given by the user. The command
+# "grep ^d.w..w..w" matches the patterns returned by "ls -al $name_dir" 
+# (thanks to the piping of the two commands (|)) to the "standard output", where they start (^) with 
+# standard "^d.w..w..w", i.e., the subdirectories of the directory "$name_dir" that have been di-
+# change permission (create/rename/delete files) (w) in addition to the owner and other users
+# system. The command "wc -l" returns the number of lines returned in the 
+# "standard output" the piping of the "ls" and "grep" commands, thanks to the piping (|) of the three-
+# commands. The "echo" command prints the message "Number of expectedly printed 
+# subdirectories : $num_subdir5", where "$num_subdir5" is the content of the variable 
+# "num_subdir5". Finally, the command "ls -al $name_dir | grep ^d.w..w..w" prints out the desired # # directory(s).
+# subdirectories of the directory.
+#
+# INPUT CONTROL VALUE OF RAIN
+# The "read" command reads an integer from the "standard input" and assigns it to the "standard input".
+# is assigned to the variable "num_loop". With the parameter "-p" the input is accompanied by the message 
+# "Type 1 for continue or 0 for end of searching : ". With the input value "1" (true) the loop will be set to "1" (true).
+# continues with the entry of a new directory to search, while with the value "0" (false)
+# the loop is terminated.
+#
+# CONTROL OF THE LOOP CONTROL VALUE
+# The "if" command checks the content of "num_loo", the loop control value.
+# If the variable contains the value "0" then "echo" prints the messages "End of 
+# searching" and "Overall number of printed files and subdirectories : $all_files_subdir",
+# where, "$all_files_subdir" is the content of the variable "all_files_subdir" and, explicitly, the
+# total number of files and subdirectories from all directories given for search
+# searched. Finally, the "exit 0" command returns the value "0" to the operating system.
+#
+#
+# EXAMPLES
+#
+# 
+# # EXAMPLE 1
+#
+# Result of executing the command "./searching.sh" :
+#
+# Error in parameters
+# Script ./searching.sh needs permissions in octal and number of days
+#
+# 
+# EXAMPLE 2
+#
+# Result of executing the command "./searching.sh 664 0" :
+#
+# =============================================================
+#
+# Type the name of a directory : Documents
+# 
+# -------------------------------------------------------------
+# OPERATION 1
+#
+# Number of expectedly printed files : 1
+#
+# Documents/file3
+#
+# -------------------------------------------------------------
+# OPERATION 2
+#
+# Number of expectedly printed files : 0
+#
+# 
+# -------------------------------------------------------------
+# OPERATION 3
+# 
+# Number of expectedly printed subdirectories : 5
+#
+# Documents
+# Documents/datafolder1
+# Documents/dbfolder1
+# Documents/dbfolder2
+# Documents/datafolder2
+#
+# ------------------------------------------------------------
+# OPERATION 4
+#
+# Number of expectedly printed files : 1
+#
+# -rw-rw-r-- 1 ice19390005 ice19390005 0 Jan 21 02:17 file3
+#
+# -------------------------------------------------------------
+# OPERATION 5
+# 
+# Number of expectedly printed subdirectories : 0
+#
+#
+# =============================================================
+#
+# Type 1 for continue or 0 for end of searching : 1
+#
+#
+# =============================================================
+#
+# Type the name of a directory : Root
+#
+# -------------------------------------------------------------
+# OPERATION 1
+#
+# Number of expectedly printed files : 2
+#
+# Root/file2
+# Root/file1
+#
+# -------------------------------------------------------------
+# OPERATION 2
+# 
+# Number of expectedly printed files : 0
+#
+#
+# -------------------------------------------------------------
+# OPERATION 3
+# 
+# Number of expectedly printed subdirectories : 1
+#
+# Root
+#
+# ------------------------------------------------------------
+# OPERATION 4
+#
+# Number of expectedly printed files : 2
+#
+# -rw-rw-r-- 3 ice19390005 ice19390005 0 Jan 22 12:48 file1
+# -rw-rw-r-- 3 ice19390005 ice19390005 0 Jan 22 12:48 file2
+#
+# -------------------------------------------------------------
+# OPERATION 5
+#
+# Number of expectedly printed subdirectories : 0
+#
+#
+# =============================================================
+#
+# Type 1 for continue or 0 for end of searching : 0
+#
+# =============================================================
+#
+# End of searching
+#
+# Overall number of printed files and subdirectories : 12
+#
+#
+# EXAMPLE 3
+#
+# Result of executing the command "./searching.sh 777 2" :
+#
+# =============================================================
+#
+# Type the name of a directory : dir
+#
+#
+# Directory does not exist in the operating system
+#
+# Overall number of printed files and subdirectories : 0
+
+
+
+
+
