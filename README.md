@@ -26,7 +26,7 @@ For the detailed Documentation and Source Code of Mfproc script, click the link:
 - **Semester**: 3
 - **Program Study**: [UNIWA](https://www.uniwa.gr/)
 - **Department**: [Informatics and Computer Engineering](https://ice.uniwa.gr/)
-- **Lab Instructor**: Pentaris Georgios
+- **Lab Instructor**: [Pentaris Georgios](https://ice.uniwa.gr/academic_sc_ho/)
 - **Academic Season**: 2021-2022
 
 ## Student Information
@@ -154,7 +154,7 @@ Execute the scripts with the appropriate arguments:
 - **Εξάμηνο**: 3
 - **Μελέτη προγράμματος**: [UNIWA](https://www.uniwa.gr/)
 - **Τμήμα**: [Μηχανικός Πληροφορικής και Υπολογιστών](https://ice.uniwa.gr/)
-- **Διδάσκων εργαστηρίου**: Πεντάρης Γεώργιος
+- **Διδάσκων εργαστηρίου**: [Πεντάρης Γεώργιος](https://ice.uniwa.gr/academic_sc_ho/)
 - **Ακαδημαϊκή περίοδος**: 2021-2022
 
 ## Πληροφορίες για τους φοιτητές
