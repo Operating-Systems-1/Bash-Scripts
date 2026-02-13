@@ -1,255 +1,139 @@
-![Alt text](https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Flag_of_the_United_Kingdom_%281-2%29.svg/255px-Flag_of_the_United_Kingdom_%281-2%29.svg.png)
+<p align="center">
+  <img src="https://www.especial.gr/wp-content/uploads/2019/03/panepisthmio-dut-attikhs.png" alt="UNIWA" width="150"/>
+</p>
 
-# Bash Scripts
+<p align="center">
+  <strong>UNIVERSITY OF WEST ATTICA</strong><br>
+  SCHOOL OF ENGINEERING<br>
+  DEPARTMENT OF COMPUTER ENGINEERING AND INFORMATICS
+</p>
 
-For the requested Assignment, click the link:
-[Assignment](Assignment/#EN_OS1_Lab_Ask-2-2021-22.pdf)
+---
 
-For the detailed Documentation and Source Code of Searching script, click the link:
-[Searching-Script](Searching-Script/#EN_19390005.G9.EX2.Q1.txt)
+<p align="center">
+  <strong>Operating Systems I</strong>
+</p>
 
-For the detailed Documentation and Source Code of Createpvs script, click the link:
-[Createpvs-Script](Createpvs-Script/#EN_19390005.G9.EX2.Q2.txt)
+<h1 align="center">
+  Bash Scripts
+</h1>
 
-For the detailed Documentation and Source Code of Cmpdir script, click the link:
-[Cmpdir-Script](Cmpdir-Script/#EN_19390005.G9.EX2.Q3.txt)
+<p align="center">
+  <strong>Vasileios Evangelos Athanasiou</strong><br>
+  Student ID: 19390005
+</p>
 
-For the detailed Documentation and Source Code of Bck script, click the link:
-[Bck-Script](Bck-Script/#EN_19390005.G9.EX2.Q4.txt)
+<p align="center">
+  <a href="https://github.com/Ath21" target="_blank">GitHub</a> ·
+  <a href="https://www.linkedin.com/in/vasilis-athanasiou-7036b53a4/" target="_blank">LinkedIn</a>
+</p>
 
-For the detailed Documentation and Source Code of Mfproc script, click the link:
-[Mfproc-Script](Mfproc-Script/#EN_19390005.G9.EX2.Q5.txt)
+<hr/>
+
+<p align="center">
+  <strong>Supervision</strong>
+</p>
+
+<p align="center">
+  Supervisor: Vasileios Mamalis, Professor
+</p>
+<p align="center">
+  <a href="https://ice.uniwa.gr/en/emd_person/vassilios-mamalis/" target="_blank">UNIWA Profile</a>
+</p>
 
 
-## Course Information
-- **Course**: [Operating Systems 1](https://ice.uniwa.gr/education/undergraduate/courses/operating-systems-i/)
-- **Semester**: 3
-- **Program Study**: [UNIWA](https://www.uniwa.gr/)
-- **Department**: [Informatics and Computer Engineering](https://ice.uniwa.gr/)
-- **Lab Instructor**: [Pentaris Georgios](https://ice.uniwa.gr/academic_sc_ho/)
-- **Academic Season**: 2021-2022
+<p align="center">
+  Co-supervisor: Georgios Pentaris, Postdoctoral Researcher<br>
+</p>
 
-## Student Information
-- **Name**: Athanasiou Vasileios Evangelos
-- **Student ID**: 19390005
-- **Status**: Undergraduate
+<p align="center">
+  <a href="https://ice.uniwa.gr/academic_sc_ho/" target="_blank">UNIWA Profile</a>
+</p>
 
-## Assignment Title
-**Title**: Linux Shell Script
+</hr>
 
-## Description
-This assignment focuses on developing Linux shell scripts to perform various file system operations. Students are required to write scripts that explore file and directory comparison, file permissions, modification tracking, and process management. The goal is to enhance proficiency with shell scripting and basic Linux commands.
+<p align="center">
+  Athens, January 2022
+</p>
 
-### Tasks Overview:
-1. **Script 1: Searching**
-   - Accepts two integers as arguments and asks the user for a directory name.
-   - Uses the `find` command to:
-     - Display files in the directory based on permissions.
-     - Show files modified within the last 'x' days.
-     - Identify subdirectories accessed in the last 'x' days.
-   - Uses `ls` and `grep` to filter and display files with specific permissions.
+# Bash Scripts Assignment
 
-2. **Script 2: cmpdir**
-   - Compares the contents of two directories.
-   - Displays how many and which files are unique to each directory and their total sizes.
-   - Shows common files and moves them to a third directory, creating hard links in the original directories.
+This repository contains a comprehensive assignment for **Linux shell scripting**, designed to enhance students’ proficiency in managing the Linux file system and processes through Bash scripts.
 
-3. **Script 3: createpvs**
-   - Creates subdirectories within a specified root folder, based on input parameters.
-   - Ensures existing folders are not overwritten.
-   - Sets permissions and ownership for the new directories.
+---
 
-4. **Script 4: bck**
-   - Performs backups of specified files or directories using `tar`.
-   - Accepts optional scheduling using `cron` or `at` for automated backups.
+## Table of Contents
 
-5. **Script 5: mfproc**
-   - Displays process information for a specific user or process state.
-   - Shows processes in Running (R), Sleeping (S), or Zombie (Z) states based on user input.
+| Section | Folder/File | Description |
+|------:|-------------|-------------|
+| 1 | `assign/` | Assignment material for the Bash Scripts workshop |
+| 1.1 | `assign/OS1_Lab_Ask-2-2021-22.pdf` | Assignment description in English |
+| 1.2 | `assign/ΛΣ1_Εργ_Ασκ-2-2021-22.pdf` | Assignment description in Greek |
+| 2 | `docs/` | Bash script scenarios and explanations |
+| 2.1 | `docs/Bck-Script.txt` | Backup script scenario in English |
+| 2.2 | `docs/Bck-Σενάριο.txt` | Backup script scenario in Greek |
+| 2.3 | `docs/Cmpdir-Script.txt` | Compare directories script scenario in English |
+| 2.4 | `docs/Cmpdir-Σενάριο.txt` | Compare directories script scenario in Greek |
+| 2.5 | `docs/Createpvs-Script.txt` | Create PVS script scenario in English |
+| 2.6 | `docs/Createpvs-Σενάριο.txt` | Create PVS script scenario in Greek |
+| 2.7 | `docs/Mfproc-Script.txt` | Mfproc script scenario in English |
+| 2.8 | `docs/Mfproc-Σενάριο.txt` | Mfproc script scenario in Greek |
+| 2.9 | `docs/Searching-Script.txt` | Searching script scenario in English |
+| 2.10 | `docs/Searching-Σενάριο.txt` | Searching script scenario in Greek |
+| 3 | `src/` | Bash script source files |
+| 3.1 | `src/bck.sh` | Backup script |
+| 3.2 | `src/bck1.sh` | Backup variant 1 script |
+| 3.3 | `src/bck2.sh` | Backup variant 2 script |
+| 3.4 | `src/cmpdir.sh` | Compare directories script |
+| 3.5 | `src/createpvs.sh` | Create PVS script |
+| 3.6 | `src/mfproc.sh` | Mfproc processing script |
+| 3.7 | `src/searching.sh` | Searching script |
+| 4 | `README.md` | Repository overview and usage instructions |
+
+---
+
+## Project Overview
+
+The assignment covers **five Bash scripts** that handle:
+
+1. **Searching Files** – Using `find`, `ls`, and `grep` to filter by permissions, modification time, and directory access.  
+2. **Directory Comparison (cmpdir)** – Identifying unique and common files, moving them, and creating hard links.  
+3. **Directory Creation (createpvs)** – Creating directories with proper permissions and ownership.  
+4. **Backup (bck)** – Archiving files/directories using `tar` with optional scheduling via `cron` or `at`.  
+5. **Process Management (mfproc)** – Displaying processes by user or state (Running, Sleeping, Zombie).
+
+The goal is to strengthen **Linux CLI skills and shell scripting expertise**.
+
+---
 
 ## Requirements
-- **Linux OS**: The scripts are designed for use on a Linux-based system.
-- **Shell**: Bash or similar shell environment.
-- **Commands Used**: `find`, `ls`, `grep`, `chmod`, `chown`, `tar`, `cron`, `at`, `ps`, and more.
+
+- **Operating System:** Linux (or WSL for Windows)  
+- **Shell Environment:** Bash or compatible  
+- **Commands Used:** `find`, `ls`, `grep`, `chmod`, `chown`, `tar`, `cron`, `at`, `ps`, etc.
+
+---
 
 ## Installation & Usage
 
 ### 1. Clone the Repository
-Download the repository to your local machine's file system:
-```
+```bash
 git clone https://github.com/Operating-Systems-I/Bash-Scripts.git
+cd Bash-Scripts
 ```
-### 2. Modify Permissions
-Ensure the scripts are executable:
+
+### 2. Make Scripts Executable
+```bash
+chmod u+x searching.sh createpvs.sh cmpdir.sh bck.sh bck1.sh bck2.sh mfproc.sh
 ```
-chmod u+x searching.sh
-```
-```
-chmod u+x createpvs.sh
-```
-```
-chmod u+x cmpdir.sh
-```
-```
-chmod u+x bck.sh
-```
-```
-chmod u+x bck1.sh
-```
-```
-chmod u+x bck2.sh
-```
-```
-chmod u+x mfproc.sh
-```
-### 3. Run Scripts
-Execute the scripts with the appropriate arguments:
-```
+
+### 3. Run Scripts with Arguments
+```bash
 ./searching.sh $1 $2
-```
-```
 ./createpvs.sh $1 $2 $3 $4
-```
-```
-./cmpdir.sh $1 $2 $3 
-```
-```
+./cmpdir.sh $1 $2 $3
 ./bck.sh $1 $2 $3
-```
-```
 ./bck1.sh $1 $2 $3 $4
-```
-```
 ./bck2.sh
-```
-```
-./mfproc.sh
-```
-
-
-![Alt text](https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Flag_of_Greece.svg/255px-Flag_of_Greece.svg.png)
-
-# Σενάρια Bash
-
-Για τη ζητούμενη Ανάθεση, κάντε κλικ στο σύνδεσμο:
-[Assignment](Assignment/#GR_OS1_Lab_Ask-2-2021-22.pdf)
-
-Για τη λεπτομερή Τεκμηρίωση και τον Πηγαίο Κώδικα του σεναρίου αναζήτησης, κάντε κλικ στο σύνδεσμο:
-[Searching-Script](Searching-Script/#GR_19390005.G9.EX2.Q1.txt)
-
-Για τη λεπτομερή Τεκμηρίωση και τον πηγαίο Κώδικα του σεναρίου Createpvs, κάντε κλικ στο σύνδεσμο:
-[Createpvs-Script](Createpvs-Script/#GR_19390005.G9.EX2.Q2.txt)
-
-Για τη λεπτομερή Τεκμηρίωση και τον πηγαίο Κώδικα του σεναρίου Cmpdir, κάντε κλικ στο σύνδεσμο:
-[Cmpdir-Script](Cmpdir-Script/#GR_19390005.G9.EX2.Q3.txt)
-
-Για τη λεπτομερή Τεκμηρίωση και τον πηγαίο Κώδικα του σεναρίου Bck, κάντε κλικ στο σύνδεσμο:
-[Bck-Script](Bck-Script/#GR_19390005.G9.EX2.Q4.txt)
-
-Για τη λεπτομερή Τεκμηρίωση και τον Πηγαίο Κώδικα του σεναρίου Mfproc, κάντε κλικ στο σύνδεσμο:
-[Mfproc-Script](Mfproc-Script/#GR_19390005.G9.EX2.Q5.txt)
-
-## Πληροφορίες μαθήματος
-- **Μάθημα**: [Λειτουργικά Συστήματα 1](https://ice.uniwa.gr/education/undergraduate/courses/operating-systems-i/)
-- **Εξάμηνο**: 3
-- **Μελέτη προγράμματος**: [UNIWA](https://www.uniwa.gr/)
-- **Τμήμα**: [Μηχανικός Πληροφορικής και Υπολογιστών](https://ice.uniwa.gr/)
-- **Διδάσκων εργαστηρίου**: [Πεντάρης Γεώργιος](https://ice.uniwa.gr/academic_sc_ho/)
-- **Ακαδημαϊκή περίοδος**: 2021-2022
-
-## Πληροφορίες για τους φοιτητές
-- **Όνομα**: Αθανασίου Βασίλειος Ευάγγελος
-- **Αριθμός φοιτητή**: 19390005
-- **Status**: Προπτυχιακός τίτλος σπουδών
-
-## Τίτλος ανάθεσης
-**Τίτλος**: Linux Shell Script
-
-## Περιγραφή
-Αυτή η εργασία επικεντρώνεται στην ανάπτυξη σεναρίων κελύφους Linux για την εκτέλεση διαφόρων λειτουργιών του συστήματος αρχείων. Οι μαθητές καλούνται να γράψουν σενάρια που διερευνούν τη σύγκριση αρχείων και καταλόγων, τα δικαιώματα αρχείων, την παρακολούθηση τροποποιήσεων και τη διαχείριση διεργασιών. Ο στόχος είναι να ενισχυθεί η επάρκεια με το shell scripting και τις βασικές εντολές του Linux.
-
-### Επισκόπηση σεναριών:
-1. **Σενάριο 1: Αναζήτηση**
-   - Δέχεται δύο ακέραιους αριθμούς ως ορίσματα και ζητά από το χρήστη ένα όνομα καταλόγου.
-   - Χρησιμοποιεί την εντολή `find` για να:
-      - Να εμφανίζει τα αρχεία στον κατάλογο με βάση τα δικαιώματα.
-      - Εμφάνιση αρχείων που έχουν τροποποιηθεί τις τελευταίες 'x' ημέρες.
-      - Προσδιορίζει τους υποκαταλόγους στους οποίους έγινε πρόσβαση τις τελευταίες 'x' ημέρες.
-   - Χρησιμοποιεί τις εντολές `ls` και `grep` για να φιλτράρει και να εμφανίζει αρχεία με συγκεκριμένα δικαιώματα.
-
-2. **Σενάριο 2: cmpdir**
-   - Συγκρίνει τα περιεχόμενα δύο καταλόγων.
-   - Εμφανίζει πόσα και ποια αρχεία είναι μοναδικά σε κάθε κατάλογο και το συνολικό τους μέγεθος.
-   - Εμφανίζει τα κοινά αρχεία και τα μετακινεί σε έναν τρίτο κατάλογο, δημιουργώντας σκληρούς συνδέσμους στους αρχικούς καταλόγους.
-
-3. **Σενάριο 3: createpvs**
-   - Δημιουργεί υποκαταλόγους μέσα σε έναν καθορισμένο ριζικό φάκελο, με βάση τις παραμέτρους εισόδου.
-   - Διασφαλίζει ότι οι υπάρχοντες φάκελοι δεν αντικαθίστανται.
-   - Ορίζει δικαιώματα και ιδιοκτησία για τους νέους καταλόγους.
-
-4. **Σενάριο 4: bck**
-   - Εκτελεί αντίγραφα ασφαλείας των καθορισμένων αρχείων ή καταλόγων χρησιμοποιώντας το `tar`.
-   - Δέχεται προαιρετικό χρονοπρογραμματισμό χρησιμοποιώντας `cron` ή `at` για αυτοματοποιημένα αντίγραφα ασφαλείας.
-
-5. **Σενάριο 5: mfproc**   
-   - Εμφανίζει πληροφορίες διεργασιών για έναν συγκεκριμένο χρήστη ή κατάσταση διεργασίας.
-   - Εμφανίζει διεργασίες σε κατάσταση Running (R), Sleeping (S) ή Zombie (Z) με βάση την είσοδο του χρήστη.
-
-## Απαιτήσεις
-- **Λειτουργικό σύστημα Linux**: Τα σενάρια έχουν σχεδιαστεί για χρήση σε σύστημα που βασίζεται σε Linux.
-- **Shell**: Bash ή παρόμοιο περιβάλλον κελύφους.
-- **Χρησιμοποιούμενες εντολές**: `find`, `ls`, `grep`, `chmod`, `chown`, `tar`, `cron`, `at`, `ps` και άλλες.
-
-## Εγκατάσταση & Χρήση
-
-### 1. Κλωνοποιήστε το αποθετήριο
-Κατεβάστε το αποθετήριο στο σύστημα αρχείων του τοπικού σας μηχανήματος:
-```
-git clone https://github.com/Operating-Systems-I/Bash-Scripts.git
-```
-### 2. Τροποποίηση δικαιωμάτων
-Βεβαιωθείτε ότι τα σενάρια είναι εκτελέσιμα:
-```
-chmod u+x searching.sh
-```
-```
-chmod u+x createpvs.sh
-```
-```
-chmod u+x cmpdir.sh
-```
-```
-chmod u+x bck.sh
-```
-```
-chmod u+x bck1.sh
-```
-```
-chmod u+x bck2.sh
-```
-```
-chmod u+x mfproc.sh
-```
-### 3. Εκτέλεση σεναρίων
-Εκτελέστε τα σενάρια με τα κατάλληλα ορίσματα:
-```
-./searching.sh $1 $2
-```
-```
-./createpvs.sh $1 $2 $3 $4
-```
-```
-./cmpdir.sh $1 $2 $3 
-```
-```
-./bck.sh $1 $2 $3
-```
-```
-./bck1.sh $1 $2 $3 $4
-```
-```
-./bck2.sh
-```
-```
 ./mfproc.sh
 ```
